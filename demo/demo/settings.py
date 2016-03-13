@@ -32,12 +32,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_email',
+    'demoapp',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -118,5 +120,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 STATIC_URL = '/static/'
+DJANGO_EMAIL_FROM = 'django-email@swapps.co'
+DJANGO_EMAIL_ADMIN = DJANGO_EMAIL_FROM
+SITE_ID = 1

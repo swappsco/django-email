@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from demoapp.views import send_email_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', send_email_view, name='demo'),
 ]
