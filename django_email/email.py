@@ -2,7 +2,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
-#from django.contrib.sites.models import Site
+from .email import EmailTemplate
+from django.contrib.sites.models import Site
 
 
 class EmailTemplate(object):

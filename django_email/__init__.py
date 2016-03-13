@@ -1,1 +1,1 @@
-from .email import EmailTemplate
+default_app_config = 'django_email.apps.EmailConfig'
