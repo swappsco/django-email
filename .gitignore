@@ -11,3 +11,4 @@
 # Others
 *.swp
 .DS_Store
+*.sqlite3
