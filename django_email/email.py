@@ -1,6 +1,5 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.template import Context
 from django.conf import settings
 from django.contrib.sites.models import Site
 
@@ -45,8 +44,6 @@ class EmailTemplate(object):
         self.context['base_url'] = self.site.domain
         plaintext = get_template('email/%s.txt' % (self.template))
         htmly = get_template('email/%s.html' % (self.template))
-
-        d = Context(self.context)
 
         html_content = htmly.render(self.context)
         msg = EmailMultiAlternatives(

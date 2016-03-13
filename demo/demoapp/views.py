@@ -12,3 +12,4 @@ def send_email_view(request):
     email_template.set_subject('My demo email')
     request.user.email = 'test@test.com'
     email_template.send_to_user(request.user)
+    return HttpResponse('Please check your console')
