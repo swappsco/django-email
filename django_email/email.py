@@ -1,6 +1,5 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.template import Context
 from django.conf import settings
 from django.contrib.sites.models import Site
 
@@ -13,17 +12,19 @@ class EmailTemplate(object):
     def __init__(self, template_name, context=None):
         if template_name:
             self.template = template_name
-        self.from_email = settings.DJANGO_EMAIL_FROM
+        self.from_email = settings.DJANGO_EMAIL_FROM or None
         self.subject = 'django-email Notification'
         self.to = (settings.DJANGO_EMAIL_ADMIN,)
         self.title = self.subject
-        if not context:
+        if context is None:
             self.context = {'title': self.title}
+        else:
+            self.context = context
         self.site = Site.objects.get(pk=settings.SITE_ID)
 
-        if settings.DJANGO_EMAIL_SUBJECT_PREFIX:
+        try:
             self.subject_prefix = settings.DJANGO_EMAIL_SUBJECT_PREFIX
-        else:
+        except AttributeError:
             self.subject_prefix = ''
 
     def set_subject(self, subject):
@@ -41,13 +42,11 @@ class EmailTemplate(object):
             raise ValueError("User does not have a defined email")
 
         self.context['base_url'] = self.site.domain
-        # plaintext = get_template('email/'+self.template+'.txt')
-        htmly = get_template('email/%s.html' % self.template)
+        plaintext = get_template('email/%s.txt' % (self.template))
+        htmly = get_template('email/%s.html' % (self.template))
 
-        d = Context(self.context)
-
-        html_content = htmly.render(d)
+        html_content = htmly.render(self.context)
         msg = EmailMultiAlternatives(
-            self.subject, html_content, self.from_email, self.to)
-        msg.content_subtype = "html"
+            self.subject, plaintext.render(self.context), self.from_email, self.to)
+        msg.attach_alternative(html_content, 'text/html')
         msg.send()
