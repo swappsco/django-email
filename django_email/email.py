@@ -2,6 +2,64 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.template.exceptions import TemplateDoesNotExist
+from .exceptions import EmailTemplateNotFound
+
+
+def send_email(email_to, template_name, context={}, subject=None):
+    """
+    Generic Method to Send Emails from template in an easier and modular way
+    :param to: Email Address to send the email message
+    :param template_name: Path of the email template (Without extension)
+    :param context: Dict context variables to send to the template
+    :param subject: Email subject
+    """
+    from_email = settings.DEFAULT_FROM_EMAIL
+
+    if not isinstance(email_to, (tuple, str)):
+        raise TypeError("email_to parameter has to be a Tuple or a String")
+
+    to = email_to if isinstance(email_to, tuple) else (email_to,)
+
+    try:
+        email_template = get_email_template(template_name)
+    except EmailTemplateNotFound:
+        print("EmailTemplate Not found")
+        return False
+
+    email_subject = subject or "System Notification"
+
+    if email_template.get('txt'):
+        template_txt = email_template.get('txt')
+        msg = EmailMultiAlternatives(
+            email_subject,
+            template_txt.render(context), from_email, to)
+        if email_template.get('html'):
+            template_html = email_template.get('html')
+            html_content = template_html.render(context)
+            msg.attach_alternative(html_content, 'text/html')
+        msg.send()
+
+
+def get_email_template(template_name):
+    has_html, has_txt = True, True
+    print(template_name)
+    try:
+        html_template = get_template('%s.html' % template_name)
+    except TemplateDoesNotExist:
+        has_html, html_template = False, None
+
+    try:
+        txt_template = get_template('%s.txt' % template_name)
+    except TemplateDoesNotExist:
+        has_txt, txt_template = False, None
+
+    if has_html is False and has_txt is False:
+        raise EmailTemplateNotFound("An Email Template was not found")
+    return {
+        'txt': txt_template,
+        'html': html_template,
+    }
 
 
 class EmailTemplate(object):
@@ -12,7 +70,7 @@ class EmailTemplate(object):
     def __init__(self, template_name, context=None):
         if template_name:
             self.template = template_name
-        self.from_email = settings.DJANGO_EMAIL_FROM or None
+        self.from_email = settings.DEFAULT_FROM_EMAIL or None
         self.subject = 'django-email Notification'
         self.to = (settings.DJANGO_EMAIL_ADMIN,)
         self.title = self.subject
@@ -47,6 +105,7 @@ class EmailTemplate(object):
 
         html_content = htmly.render(self.context)
         msg = EmailMultiAlternatives(
-            self.subject, plaintext.render(self.context), self.from_email, self.to)
+            self.subject,
+            plaintext.render(self.context), self.from_email, self.to)
         msg.attach_alternative(html_content, 'text/html')
         msg.send()
