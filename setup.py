@@ -6,9 +6,8 @@ from setuptools import setup
 #         return f.read()
 
 setup(name='django-email',
-      version='0.1.1',
-      description='Django Emails made easy',
-      # long_description=readme(),
+      version='0.1.2',
+      description='Django Email Templates made easy',
       url='https://github.com/swappsco/django-email',
       author='Andres Gonzalez',
       author_email='andresgz@gmail.com',
@@ -24,7 +23,7 @@ setup(name='django-email',
           'Environment :: Web Environment',
           'Framework :: Django',
           'Intended Audience :: Developers',
-          'License :: OSI Approved :: BSD License', # example license
+          'License :: OSI Approved :: BSD License',
           'Operating System :: OS Independent',
           'Programming Language :: Python',
           'Topic :: Internet :: WWW/HTTP',
