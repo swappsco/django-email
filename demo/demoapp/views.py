@@ -1,15 +1,15 @@
 from django.http import HttpResponse
-from django_email.email import EmailTemplate
+from django_email import email as djemail
 
 
 def send_email_view(request):
     """
     Simple example on how to send an email in a view.
     """
-    context = {'body': 'This is some body'}
-    template = 'base'
-    email_template = EmailTemplate(template, context)
-    email_template.set_subject('My demo email')
-    request.user.email = 'test@test.com'
-    email_template.send_to_user(request.user)
+    djemail.send_email(
+        email_to="email@test.com",
+        template_name="email/base", # .txt and/or .html
+        context={'variable': 'Variable Content'},
+        subject="My Subject"
+    )
     return HttpResponse('Please check your console')

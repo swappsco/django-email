@@ -6,7 +6,7 @@ from setuptools import setup
 #         return f.read()
 
 setup(name='django-email',
-      version='0.1.2',
+      version='0.1.3',
       description='Django Email Templates made easy',
       url='https://github.com/swappsco/django-email',
       author='Andres Gonzalez',

@@ -1,7 +1,7 @@
 **WELCOME TO DJANGO EMAIL**
 =========================
 
-Version: 0.1.2
+Version: 0.1.3
 
 Django email is a thin wrapper for django's multialternative email sending. For this you will need to specify a plain text template (.txt) and an html version (.html).
 Django email takes your template and your context, renders it and sends the email, reducing the boilerplate required for sending an email.

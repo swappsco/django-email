@@ -1,0 +1,3 @@
+Email Sample!
+
+This is your context variable: {{ variable }}
