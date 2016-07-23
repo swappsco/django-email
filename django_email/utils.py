@@ -1,3 +1,6 @@
+import warnings
+import functools
+
 def deprecated(func):
     @functools.wraps(func)
     def new_func(*args, **kwargs):
