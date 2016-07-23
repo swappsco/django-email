@@ -1,0 +1,10 @@
+{{ TITLE }}
+======================================================================
+
+{% block content %}
+	This is a sample email. 
+	Replace "content" block with your required content.
+{% endblock content %}
+
+======================================================================
+{{ SITE_NAME }}
