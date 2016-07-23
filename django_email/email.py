@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.template.exceptions import TemplateDoesNotExist
 from .exceptions import EmailTemplateNotFound
-
+from .utils import deprecated
 
 def send_email(email_to, template_name, context={}, subject=None):
     """
@@ -16,7 +16,7 @@ def send_email(email_to, template_name, context={}, subject=None):
     """
     from_email = settings.DEFAULT_FROM_EMAIL
 
-    if not isinstance(email_to, (tuple, str)):
+    if not isinstance(email_to, (tuple, str, unicode)):
         raise TypeError("email_to parameter has to be a Tuple or a String")
 
     to = email_to if isinstance(email_to, tuple) else (email_to,)
@@ -67,6 +67,7 @@ class EmailTemplate(object):
     Send emails using templates
     """
 
+    @deprecated
     def __init__(self, template_name, context=None):
         if template_name:
             self.template = template_name
@@ -84,10 +85,12 @@ class EmailTemplate(object):
             self.subject_prefix = settings.DJANGO_EMAIL_SUBJECT_PREFIX
         except AttributeError:
             self.subject_prefix = ''
-
+    
+    @deprecated
     def set_subject(self, subject):
         self.subject = '%s %s' % (self.subject_prefix, subject)
 
+    @deprecated
     def send_to_user(self, user):
         if user.email:
             self.to = (user.email,)
@@ -95,6 +98,7 @@ class EmailTemplate(object):
         else:
             raise ValueError("User does not have a defined email")
 
+    @deprecated
     def send(self):
         if not self.to:
             raise ValueError("User does not have a defined email")
