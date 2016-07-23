@@ -27,9 +27,16 @@ Install Django Email::
 Then use it in a project::
 
     from django_email import email as djemail
-    
+
     # Simple Usage
+    # Admin will receive a message
     djemail.send_mail(message="My Message", subject="The Subject")
+
+    # Send an email to a specific email
+    djemail.send_mail(
+	    to="email@test.com",
+	    message="My Message",
+	    subject="The Subject")
 
     # Advanced Usage
     djemail.send_email(
