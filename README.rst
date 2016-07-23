@@ -5,15 +5,11 @@ Django Email
 .. image:: https://badge.fury.io/py/django-email.png
     :target: https://badge.fury.io/py/django-email
 
-.. image:: https://travis-ci.org/andresgz/django-email.png?branch=master
-    :target: https://travis-ci.org/andresgz/django-email
+.. image:: https://travis-ci.org/swappsco/django-email.png?branch=master
+    :target: https://travis-ci.org/swappsco/django-email
 
 Django Email Templates made easy
 
-Documentation
--------------
-
-The full documentation is at https://django-email.readthedocs.org.
 
 Quickstart
 ----------
