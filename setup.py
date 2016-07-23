@@ -1,32 +1,80 @@
-from setuptools import setup
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import sys
+
+from setuptools import setup, find_packages
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+version = '0.1.5'
+
+if sys.argv[-1] == 'publish':
+    try:
+        import wheel
+        print("Wheel version: ", wheel.__version__)
+    except ImportError:
+        print('Wheel library missing. Please run "pip install wheel"')
+        sys.exit()
+    os.system('python setup.py sdist upload')
+    os.system('python setup.py bdist_wheel upload')
+    sys.exit()
+
+if sys.argv[-1] == 'tag':
+    print("Tagging the version on github:")
+    os.system("git tag -a %s -m 'version %s'" % (version, version))
+    os.system("git push --tags")
+    sys.exit()
+
+readme = open('README.rst').read()
+history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 
-# def readme():
-#     with open('README.rst') as f:
-#         return f.read()
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
 
-setup(name='django-email',
-      version='0.1.4',
-      description='Django Email Templates made easy',
-      url='https://github.com/swappsco/django-email',
-      author='Andres Gonzalez',
-      author_email='andresgz@gmail.com',
-      license='MIT',
-      packages=['django_email'],
-      include_package_data=True,
-      install_requires=[
-          'django',
-      ],
-      test_suite='nose.collector',
-      tests_require=['nose'],
-      classifiers=[
-          'Environment :: Web Environment',
-          'Framework :: Django',
-          'Intended Audience :: Developers',
-          'License :: OSI Approved :: BSD License',
-          'Operating System :: OS Independent',
-          'Programming Language :: Python',
-          'Topic :: Internet :: WWW/HTTP',
-          'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-      ],
-      zip_safe=False)
+extra_files = package_files('django_email/templates')
+
+setup(
+    name='django-email',
+    version=version,
+    description="""Django Email Templates made easy""",
+    long_description=readme + '\n\n' + history,
+    author='Andres Gonzalez',
+    author_email='andresgz@gmail.com',
+    url='https://github.com/swappsco/django-email',
+    packages=[
+        'django_email',
+    ],
+    include_package_data=True,
+    package_data={
+    '': extra_files
+    },
+    install_requires=[],
+    license="MIT",
+    zip_safe=False,
+    keywords='django-email',
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Framework :: Django',
+        'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Natural Language :: English',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+    ],
+)

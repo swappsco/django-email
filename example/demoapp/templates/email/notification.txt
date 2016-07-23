@@ -1,3 +1,4 @@
+{% extends "base.txt" %}
 Email Sample!
 
 This is your context variable: {{ variable }}

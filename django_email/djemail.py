@@ -6,7 +6,7 @@ from django.template.exceptions import TemplateDoesNotExist
 from .exceptions import EmailTemplateNotFound
 from .utils import deprecated
 
-def send_email(email_to, template_name, context={}, subject=None):
+def send_email(email_to, template_name='base', context={}, subject=None):
     """
     Generic Method to Send Emails from template in an easier and modular way
     :param to: Email Address to send the email message
@@ -21,11 +21,12 @@ def send_email(email_to, template_name, context={}, subject=None):
 
     to = email_to if isinstance(email_to, tuple) else (email_to,)
 
+    context = dict(get_default_context().items() + context.items())
+
     try:
         email_template = get_email_template(template_name)
     except EmailTemplateNotFound:
-        print("EmailTemplate Not found")
-        return False
+        email_template = get_email_template('base')
 
     email_subject = subject or "System Notification"
 
@@ -40,10 +41,19 @@ def send_email(email_to, template_name, context={}, subject=None):
             msg.attach_alternative(html_content, 'text/html')
         msg.send()
 
+        return msg
+
+
+def get_default_context():
+    context =  {
+        'TITLE': "Django Email Template",
+        'SITE_NAME': "Django Email Site"
+    }
+
+    return context
 
 def get_email_template(template_name):
     has_html, has_txt = True, True
-    print(template_name)
     try:
         html_template = get_template('%s.html' % template_name)
     except TemplateDoesNotExist:

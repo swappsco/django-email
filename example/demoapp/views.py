@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django_email import email as djemail
+from django_email import djemail
 
 
 def send_email_view(request):
@@ -8,7 +8,7 @@ def send_email_view(request):
     """
     djemail.send_email(
         email_to="email@test.com",
-        template_name="email/base", # .txt and/or .html
+        template_name="email/notification", # .txt and/or .html
         context={'variable': 'Variable Content'},
         subject="My Subject"
     )
