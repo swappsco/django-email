@@ -21,6 +21,7 @@ try:
         ],
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),
+        ADMINS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')],
     )
 
     try:
