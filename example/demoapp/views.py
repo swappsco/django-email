@@ -7,8 +7,8 @@ def send_email_view(request):
     Simple example on how to send an email in a view.
     """
     djemail.send_email(
-        email_to="email@test.com",
-        template_name="email/notification", # .txt and/or .html
+        to="email@test.com",
+        template="email/notification", # .txt and/or .html
         context={'variable': 'Variable Content'},
         subject="My Subject"
     )
