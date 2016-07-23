@@ -6,35 +6,51 @@ from django.template.exceptions import TemplateDoesNotExist
 from .exceptions import EmailTemplateNotFound
 from .utils import deprecated
 
-def send_email(email_to, template_name='base', context={}, subject=None):
+def send_email(to=None, message=None, template='base', context={}, subject=None):
     """
     Generic Method to Send Emails from template in an easier and modular way
     :param to: Email Address to send the email message
-    :param template_name: Path of the email template (Without extension)
+    :param message: Message content that is added to context
+    :param template: Path of the email template (Without extension)
     :param context: Dict context variables to send to the template
     :param subject: Email subject
     """
     from_email = settings.DEFAULT_FROM_EMAIL
+    if to is None:
+        if len(settings.ADMINS) > 0:
+            to = settings.ADMINS[0][1]
+        else:
+            raise AttributeError("Not Admins defined")
 
-    if not isinstance(email_to, (tuple, str, unicode)):
-        raise TypeError("email_to parameter has to be a Tuple or a String")
+    if isinstance(to, (tuple, str)):
+        pass
+    elif unicode:
+        if not isinstance(to, unicode):
+            raise TypeError("email_to parameter has to be a Tuple or a String")
+    else:
+            raise TypeError("email_to parameter has to be a Tuple or a String")
 
-    to = email_to if isinstance(email_to, tuple) else (email_to,)
 
-    context = dict(get_default_context().items() + context.items())
+    email_to = to if isinstance(to, tuple) else (to,)
+
+    context.update(get_default_context())
+
+    if message is not None:
+        context.update({'message': message})
 
     try:
-        email_template = get_email_template(template_name)
+        email_template = get_email_template(template)
     except EmailTemplateNotFound:
         email_template = get_email_template('base')
 
     email_subject = subject or "System Notification"
 
+
     if email_template.get('txt'):
         template_txt = email_template.get('txt')
         msg = EmailMultiAlternatives(
             email_subject,
-            template_txt.render(context), from_email, to)
+            template_txt.render(context), from_email, email_to)
         if email_template.get('html'):
             template_html = email_template.get('html')
             html_content = template_html.render(context)
