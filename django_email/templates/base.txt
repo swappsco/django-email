@@ -2,9 +2,8 @@
 ======================================================================
 
 {% block content %}
-	This is a sample email. 
-	Replace "content" block with your required content.
+	{{ message }}
 {% endblock content %}
 
 ======================================================================
-{{ SITE_NAME }}
+{{ SITE_NAME }} - {{ SITE_DOMAIN}}
