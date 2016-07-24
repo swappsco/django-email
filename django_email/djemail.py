@@ -61,10 +61,23 @@ def send_email(to=None, message=None, template='base', context={}, subject=None)
 
 
 def get_default_context():
-    context =  {
-        'TITLE': "Django Email Template",
-        'SITE_NAME': "Django Email Site"
+
+    default_context =  {
+        'SITE_NAME': "Django Email",
+        'SITE_DOMAIN': "www.example.com"
     }
+
+    if settings.SITE_ID is not None:
+        try:
+            site = Site.objects.get(id=settings.SITE_ID)
+            context = {
+                'SITE_NAME': site.name,
+                'SITE_DOMAIN': site.domain
+            }
+        except Site.DoesNotExist:
+            context = default_context
+
+    context.update({'TITLE': context.get('SITE_NAME')})
 
     return context
 
