@@ -1,8 +1,9 @@
-import sys
+import sys, os
 
 try:
     from django.conf import settings
     from django.test.utils import get_runner
+    PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
     settings.configure(
         DEBUG=True,
@@ -22,6 +23,33 @@ try:
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),
         ADMINS = [('John', 'john@example.com'), ('Mary', 'mary@example.com')],
+        TEMPLATES = [
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'DIRS': [
+                    PROJECT_PATH + '/django_email/templates/',
+                ],
+                'OPTIONS': {
+                    'debug': True,
+                    'loaders': [
+                        'django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader',
+                    ],
+                    'context_processors': [
+                        'django.template.context_processors.debug',
+                        'django.template.context_processors.request',
+                        'django.contrib.auth.context_processors.auth',
+                        'django.template.context_processors.i18n',
+                        'django.template.context_processors.media',
+                        'django.template.context_processors.static',
+                        'django.template.context_processors.tz',
+                        'django.contrib.messages.context_processors.messages',
+                        'django.core.context_processors.csrf',
+                    ],
+                },
+            },
+        ]
+
     )
 
     try:

@@ -40,7 +40,7 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files('django_email/templates')
+extra_files = package_files('django_email/templates/email')
 
 setup(
     name='django-email',
