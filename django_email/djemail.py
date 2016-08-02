@@ -6,7 +6,9 @@ from django.template.exceptions import TemplateDoesNotExist
 from .exceptions import EmailTemplateNotFound
 from .utils import deprecated
 
-def send_email(to=None, message=None, template='base', context={}, subject=None):
+
+def send_email(to=None, message=None, template='base',
+               context={}, subject=None):
     """
     Generic Method to Send Emails from template in an easier and modular way
     :param to: Email Address to send the email message
@@ -30,7 +32,6 @@ def send_email(to=None, message=None, template='base', context={}, subject=None)
     else:
             raise TypeError("email_to parameter has to be a Tuple or a String")
 
-
     email_to = to if isinstance(to, tuple) else (to,)
 
     context.update(get_default_context())
@@ -44,7 +45,6 @@ def send_email(to=None, message=None, template='base', context={}, subject=None)
         email_template = get_email_template('base')
 
     email_subject = subject or "System Notification"
-
 
     if email_template.get('txt'):
         template_txt = email_template.get('txt')
@@ -62,7 +62,7 @@ def send_email(to=None, message=None, template='base', context={}, subject=None)
 
 def get_default_context():
 
-    default_context =  {
+    default_context = {
         'SITE_NAME': "Django Email",
         'SITE_DOMAIN': "www.example.com"
     }
@@ -80,6 +80,7 @@ def get_default_context():
     context.update({'TITLE': context.get('SITE_NAME')})
 
     return context
+
 
 def get_email_template(template_name):
     has_html, has_txt = True, True
