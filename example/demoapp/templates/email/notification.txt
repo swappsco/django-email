@@ -1,4 +1,6 @@
-{% extends "base.txt" %}
+{% extends "email/base.txt" %}
+{% block content %}
 Email Sample!
 
 This is your context variable: {{ variable }}
+{% endblock content %}
