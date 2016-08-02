@@ -42,7 +42,7 @@ def send_email(to=None, message=None, template='base',
     try:
         email_template = get_email_template(template)
     except EmailTemplateNotFound:
-        email_template = get_email_template('base')
+        email_template = get_email_template('email/base')
 
     email_subject = subject or "System Notification"
 
