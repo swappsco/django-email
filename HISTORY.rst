@@ -38,7 +38,7 @@ History
 
 * Improve send_mail() method. Add Base templates and more modes to use.
 
-0.1.7 (2016-07-23)
+0.1.7 (2016-08-01)
 ++++++++++++++++++
 
 * Bug fix for default Email template, updates example and tests.
