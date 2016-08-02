@@ -28,7 +28,7 @@ Install Django Email::
 
 Then use it in a project::
 
-    from django_email import email as djemail
+    from django_email import djemail
 
     # Simple Usage
     # Admin will receive a message
