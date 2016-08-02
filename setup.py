@@ -10,7 +10,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = '0.1.6'
+version = '0.1.7'
 
 if sys.argv[-1] == 'publish':
     try:
@@ -40,7 +40,7 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files('django_email/templates')
+extra_files = package_files('django_email/templates/email')
 
 setup(
     name='django-email',
