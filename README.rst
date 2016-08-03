@@ -35,7 +35,7 @@ Then use it in a project::
     djemail.send_mail(message="My Message", subject="The Subject")
 
     # Send an email to a specific email
-    djemail.send_mail(
+    djemail.send_email(
 	    to="email@test.com",
 	    message="My Message",
 	    subject="The Subject")
