@@ -32,7 +32,7 @@ Then use it in a project::
 
     # Simple Usage
     # Admin will receive a message
-    djemail.send_mail(message="My Message", subject="The Subject")
+    djemail.send_email(message="My Message", subject="The Subject")
 
     # Send an email to a specific email
     djemail.send_email(
