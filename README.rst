@@ -26,6 +26,12 @@ Install Django Email::
 
     pip install django-email
 
+
+Then, add it to your installed apps::
+
+    INSTALLED_APPS += ('django_email',)
+
+
 Then use it in a project::
 
     from django_email import djemail
@@ -53,7 +59,7 @@ Features
 --------
 
 * Send easy email to ADMINS.
-* Send TXT/HTML Email using a predefined template.
+* Send TXT/HTML Email using a predefined template. (.txt template is mandatory)
 * Send Email using your own custom templates. 
 
 Running Tests
