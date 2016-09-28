@@ -58,6 +58,7 @@ def send_email(to=None, message=None, template='base',
         msg.send()
 
         return msg
+    raise AttributeError(".txt template does not exist")
 
 
 def get_default_context():
@@ -94,7 +95,7 @@ def get_email_template(template_name):
     except TemplateDoesNotExist:
         has_txt, txt_template = False, None
 
-    if has_html is False and has_txt is False:
+    if has_txt is False:
         raise EmailTemplateNotFound("An Email Template was not found")
     return {
         'txt': txt_template,
