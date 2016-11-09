@@ -19,7 +19,7 @@ class EmailTest(TestCase):
             message="This is a message with no template or Context!",
             subject="My Subject"
         )
-        self.assertEquals(mail.subject, 'My Subject')
+        self.assertEquals(mail, 1)
 
     def test_send_email_message(self):
         mail = djemail.send_email(
@@ -27,17 +27,31 @@ class EmailTest(TestCase):
             message="This is a message with no template or Context!",
             subject="My Subject"
         )
-        self.assertEquals(mail.subject, 'My Subject')
-        self.assertEquals(mail.to, ["email@test.com"])
+        self.assertEquals(mail, 1)
+
+    def test_send_email_message_list(self):
+        mail = djemail.send_email(
+            to=["email1@test.com", "email2@test.com"],
+            message="This is a message with no template or Context!",
+            subject="My Subject"
+        )
+        self.assertEquals(mail, 1)
+
+    def test_send_email_message_tuple(self):
+        mail = djemail.send_email(
+            to=("email1@test.com", "email2@test.com"),
+            message="This is a message with no template or Context!",
+            subject="My Subject"
+        )
+        self.assertEquals(mail, 1)
 
     def test_send_email_context(self):
         mail = djemail.send_email(
             to="email@test.com",
-            context={'content': 'This is ht message'},
+            context={'content': 'This is a message'},
             subject="My Subject"
         )
-        self.assertEquals(mail.subject, 'My Subject')
-        self.assertEquals(mail.to, ["email@test.com"])
+        self.assertEquals(mail, 1)
 
     def test_send_email_template(self):
         mail = djemail.send_email(
@@ -46,5 +60,4 @@ class EmailTest(TestCase):
             context={'variable': 'Variable Content'},
             subject="My Subject"
         )
-        self.assertEquals(mail.subject, 'My Subject')
-        self.assertEquals(mail.to, ["email@test.com"])
+        self.assertEquals(mail, 1)
